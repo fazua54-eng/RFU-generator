@@ -13,8 +13,7 @@ export const extractNum = val => {
 }
 export const stripPrefix = val => val == null ? '' : val.toString().replace(/^[^:]+:\s*/, '').trim()
 
-export function extractFromWorkbook(wb) {
-  const XLSX = require('xlsx')
+export function extractFromWorkbook(wb, XLSX) {
   const findSheet = kws => {
     const name = wb.SheetNames.find(n => kws.every(k => n.toLowerCase().includes(k.toLowerCase())))
     return name ? { sheet: wb.Sheets[name], name } : null
