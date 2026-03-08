@@ -20,13 +20,14 @@ export default function App() {
   const processFiles = useCallback(async (files) => {
     setScreen('processing'); setError(null); setStep(0)
     try {
-      const XLSX = (await import('xlsx')).default || (await import('xlsx'))
+      const XLSXmod = await import('xlsx')
+      const XLSX = XLSXmod.default || XLSXmod
       const { extractFromWorkbook } = await import('./extract')
       const results = []
       for (const file of files) {
         const ab = await file.arrayBuffer(); setStep(1)
         const wb = XLSX.read(ab); setStep(2)
-        const data = extractFromWorkbook(wb); data.fileName = file.name
+        const data = extractFromWorkbook(wb, XLSX); data.fileName = file.name
         results.push(data)
       }
       setStep(3); await new Promise(r => setTimeout(r, 200))
